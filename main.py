@@ -25,11 +25,19 @@ if st.button("Scrape Site"):
         # 创建一个文本区域，显示清理后的内容，高度为300像素
         st.text_area("Dom Content", cleaned_content, height=300)
 
+# 检查 st.session_state 中是否存在 "dom_content" 键
 if "dom_content" in st.session_state:
+    # 创建一个文本区域，提示用户输入解析描述
     parse_description = st.text_area("Description what you want to parse")
+    # 如果用户点击了 "Parse Description" 按钮
     if st.button("Parse Description"):
+        # 检查用户是否输入了解析描述
         if parse_description:
+            # 在页面上显示用户输入的解析描述
             st.write(parse_description)
+            # 调用 split_dom_content 函数，将 DOM 内容分割成多个块
             dom_chunks = split_dom_content(st.session_state.dom_content)
+            # 调用 parse_with_ollama 函数，传入 DOM 内容块和解析描述，执行解析操作
             result = parse_with_ollama(dom_chunks, parse_description)
+            # 在页面上显示解析结果
             st.write(result)
